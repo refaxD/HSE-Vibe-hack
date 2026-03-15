@@ -1,0 +1,1368 @@
+{
+  "data": [
+    {
+      "name": "Аквапарки",
+      "id": 2269,
+      "autoParse": true,
+      "category": "Аквапарк",
+      "type": 1,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "ObjectName",
+        "email": "Email",
+        "website": "WebSite",
+        "phone": "HelpPhone",
+        "schedule": "WorkingHoursSummer",
+        "isPaid": "Paid",
+        "price": "PaidComments",
+        "address": "Address"
+      },
+      "data": {
+        "hasChangeRoom": "HasDressingRoom",
+        "hasToilet": "HasToilet",
+        "hasFood": "HasEatery",
+        "hasWIFI": "HasWifi",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "UsagePeriodSummer",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Бассейны плавательные крытые",
+      "id": 890,
+      "autoParse": true,
+      "category": "Бассейн",
+      "type": 1,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "ObjectName",
+        "email": "Email",
+        "website": "WebSite",
+        "phone": "HelpPhone",
+        "schedule": "WorkingHoursSummer",
+        "isPaid": "Paid",
+        "price": "PaidComments",
+        "address": "Address"
+      },
+      "data": {
+        "hasChangeRoom": "HasDressingRoom",
+        "hasToilet": "HasToilet",
+        "hasFood": "HasEatery",
+        "hasWIFI": "HasWifi",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "UsagePeriodSummer",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Бассейны плавательные открытые",
+      "id": 894,
+      "autoParse": true,
+      "category": "Бассейн",
+      "type": 1,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "ObjectName",
+        "email": "Email",
+        "website": "WebSite",
+        "phone": "HelpPhone",
+        "schedule": "WorkingHoursSummer",
+        "isPaid": "Paid",
+        "price": "PaidComments",
+        "address": "Address"
+      },
+      "data": {
+        "hasChangeRoom": "HasDressingRoom",
+        "hasToilet": "HasToilet",
+        "hasFood": "HasEatery",
+        "hasWIFI": "HasWifi",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "UsagePeriodSummer",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Библиотеки",
+      "id": 526,
+      "autoParse": true,
+      "category": "Библиотека",
+      "type": 2,
+      "geometry": "MultiPoint",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "CommonName",
+        "email": [
+          "Email",
+          "0",
+          "Email"
+        ],
+        "website": "WebSite",
+        "phone": [
+          "PublicPhone",
+          "0",
+          "PublicPhone"
+        ],
+        "schedule": "WorkingHours",
+        "isPaid": "",
+        "price": "",
+        "address": [
+          "ObjectAddress",
+          "0",
+          "Address"
+        ]
+      },
+      "data": {
+        "hasFoodPoint": "",
+        "hasChangeRoom": "",
+        "hasToilet": "",
+        "hasWIFI": "",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "FullName",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Ботанические сады",
+      "id": 2456,
+      "autoParse": true,
+      "category": "Ботанический сад",
+      "type": 3,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "FullName",
+        "email": "Email",
+        "website": "",
+        "phone": "PublicPhone",
+        "schedule": "WorkingHours",
+        "isPaid": "",
+        "price": "",
+        "address": "Address"
+      },
+      "data": {
+        "hasFoodPoint": "",
+        "hasChangeRoom": "",
+        "hasToilet": "",
+        "hasWIFI": "",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "ExtraInfo",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Выставочные залы",
+      "id": 527,
+      "autoParse": true,
+      "category": "Выставка",
+      "type": 0,
+      "geometry": "MultiPoint",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "CommonName",
+        "email": [
+          "Email",
+          "0",
+          "Email"
+        ],
+        "website": "WebSite",
+        "phone": [
+          "PublicPhone",
+          "0",
+          "PublicPhone"
+        ],
+        "schedule": "WorkingHours",
+        "isPaid": "",
+        "price": "",
+        "address": [
+          "ObjectAddress",
+          "0",
+          "Address"
+        ]
+      },
+      "data": {
+        "hasFoodPoint": "",
+        "hasChangeRoom": "",
+        "hasToilet": "",
+        "hasWIFI": "",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Детские игровые площадки в парках",
+      "id": 1389,
+      "autoParse": true,
+      "category": "Игровая площадка",
+      "type": 1,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "ObjectName",
+        "email": "Email",
+        "website": "WebSite",
+        "phone": "HelpPhone",
+        "schedule": "WorkingHoursSummer",
+        "isPaid": "Paid",
+        "price": "PaidComments",
+        "address": "Address"
+      },
+      "data": {
+        "hasChangeRoom": "HasDressingRoom",
+        "hasToilet": "HasToilet",
+        "hasFood": "HasEatery",
+        "hasWIFI": "HasWifi",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "UsagePeriodSummer",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Детские технопарки",
+      "id": 60762,
+      "autoParse": true,
+      "category": "Детский технопарк",
+      "type": 0,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "Name",
+        "email": [
+          "Email",
+          "0",
+          "Email"
+        ],
+        "website": "WebSite",
+        "phone": [
+          "PublicPhone",
+          "0",
+          "PublicPhone"
+        ],
+        "schedule": "",
+        "isPaid": "",
+        "price": "",
+        "address": "Address"
+      },
+      "data": {
+        "hasFoodPoint": "",
+        "hasChangeRoom": "",
+        "hasToilet": "",
+        "hasWIFI": "",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Залы спортивные",
+      "id": 60622,
+      "autoParse": true,
+      "category": "Спорт зал",
+      "type": 1,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "ObjectName",
+        "email": "Email",
+        "website": "WebSite",
+        "phone": "HelpPhone",
+        "schedule": "WorkingHoursSummer",
+        "isPaid": "Paid",
+        "price": "PaidComments",
+        "address": "Address"
+      },
+      "data": {
+        "hasChangeRoom": "HasDressingRoom",
+        "hasToilet": "HasToilet",
+        "hasFood": "HasEatery",
+        "hasWIFI": "HasWifi",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "UsagePeriodSummer",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Залы теннисные",
+      "id": 60623,
+      "autoParse": true,
+      "category": "Теннис",
+      "type": 1,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "ObjectName",
+        "email": "Email",
+        "website": "WebSite",
+        "phone": "HelpPhone",
+        "schedule": "WorkingHoursSummer",
+        "isPaid": "Paid",
+        "price": "PaidComments",
+        "address": "Address"
+      },
+      "data": {
+        "hasChangeRoom": "HasDressingRoom",
+        "hasToilet": "HasToilet",
+        "hasFood": "HasEatery",
+        "hasWIFI": "HasWifi",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "UsagePeriodSummer",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Залы тренажерные",
+      "id": 60624,
+      "autoParse": true,
+      "category": "Спорт зал",
+      "type": 1,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "ObjectName",
+        "email": "Email",
+        "website": "WebSite",
+        "phone": "HelpPhone",
+        "schedule": "WorkingHoursSummer",
+        "isPaid": "Paid",
+        "price": "PaidComments",
+        "address": "Address"
+      },
+      "data": {
+        "hasChangeRoom": "HasDressingRoom",
+        "hasToilet": "HasToilet",
+        "hasFood": "HasEatery",
+        "hasWIFI": "HasWifi",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "UsagePeriodSummer",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Католические храмы",
+      "id": 2265,
+      "autoParse": true,
+      "category": "Католический храм",
+      "type": 5,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "ObjectName",
+        "email": "Email",
+        "website": "WebSite",
+        "phone": "PublicPhone",
+        "schedule": "",
+        "isPaid": "",
+        "price": "",
+        "address": "Address"
+      },
+      "data": {
+        "hasFoodPoint": "",
+        "hasChangeRoom": "",
+        "hasToilet": "",
+        "hasWIFI": "",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Коворкинги",
+      "id": 1464,
+      "autoParse": true,
+      "category": "Коворкинг",
+      "type": 0,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "ShortName",
+        "email": [
+          "Email",
+          "0",
+          "Email"
+        ],
+        "website": "Site",
+        "phone": [
+          "ContactPhone",
+          "0",
+          "ContactPhone"
+        ],
+        "schedule": "",
+        "isPaid": "",
+        "price": "Tariffs",
+        "address": "Address"
+      },
+      "data": {
+        "hasFoodPoint": "",
+        "hasChangeRoom": "",
+        "hasToilet": "",
+        "hasWIFI": "",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "ShortDescription",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "",
+        "subway": "LocationClarification"
+      }
+    },
+    {
+      "name": "Концертные организации",
+      "id": 528,
+      "autoParse": true,
+      "category": "Концертный зал",
+      "type": 2,
+      "geometry": "MultiPoint",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "CommonName",
+        "email": [
+          "Email",
+          "0",
+          "Email"
+        ],
+        "website": "WebSite",
+        "phone": [
+          "PublicPhone",
+          "0",
+          "PublicPhone"
+        ],
+        "schedule": "WorkingHours",
+        "isPaid": "",
+        "price": "",
+        "address": [
+          "ObjectAddress",
+          "0",
+          "Address"
+        ]
+      },
+      "data": {
+        "hasFoodPoint": "",
+        "hasChangeRoom": "",
+        "hasToilet": "",
+        "hasWIFI": "",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "FullName",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Ледовые поля (крытые)",
+      "id": 1232,
+      "autoParse": true,
+      "category": "Каток",
+      "type": 1,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "ObjectName",
+        "email": "Email",
+        "website": "WebSite",
+        "phone": "HelpPhone",
+        "schedule": "WorkingHoursSummer",
+        "isPaid": "Paid",
+        "price": "PaidComments",
+        "address": "Address"
+      },
+      "data": {
+        "hasChangeRoom": "HasDressingRoom",
+        "hasToilet": "HasToilet",
+        "hasFood": "HasEatery",
+        "hasWIFI": "HasWifi",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "UsagePeriodSummer",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Места для пикника",
+      "id": 912,
+      "autoParse": true,
+      "category": "Пикник",
+      "type": 1,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "ObjectName",
+        "email": "Email",
+        "website": "WebSite",
+        "phone": "HelpPhone",
+        "schedule": "WorkingHoursSummer",
+        "isPaid": "Paid",
+        "price": "PaidComments",
+        "address": "Address"
+      },
+      "data": {
+        "hasChangeRoom": "HasDressingRoom",
+        "hasToilet": "HasToilet",
+        "hasFood": "HasEatery",
+        "hasWIFI": "HasWifi",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "UsagePeriodSummer",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Места катания на лошадях",
+      "id": 1386,
+      "autoParse": true,
+      "category": "Катание на лошадях",
+      "type": 1,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "ObjectName",
+        "email": "Email",
+        "website": "WebSite",
+        "phone": "HelpPhone",
+        "schedule": "WorkingHoursSummer",
+        "isPaid": "Paid",
+        "price": "PaidComments",
+        "address": "Address"
+      },
+      "data": {
+        "hasChangeRoom": "HasDressingRoom",
+        "hasToilet": "HasToilet",
+        "hasFood": "HasEatery",
+        "hasWIFI": "HasWifi",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "UsagePeriodSummer",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Мечети",
+      "id": 2266,
+      "autoParse": true,
+      "category": "Мечеть",
+      "type": 5,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "ObjectName",
+        "email": "Email",
+        "website": "WebSite",
+        "phone": "PublicPhone",
+        "schedule": "",
+        "isPaid": "",
+        "price": "",
+        "address": "Address"
+      },
+      "data": {
+        "hasFoodPoint": "",
+        "hasChangeRoom": "",
+        "hasToilet": "",
+        "hasWIFI": "",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Монастыри",
+      "id": 2267,
+      "autoParse": true,
+      "category": "Монастырь",
+      "type": 5,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "NameOfReligiousOrganization",
+        "email": "",
+        "website": "WebSite",
+        "phone": "PublicPhone",
+        "schedule": "",
+        "isPaid": "",
+        "price": "",
+        "address": "Address"
+      },
+      "data": {
+        "hasFoodPoint": "",
+        "hasChangeRoom": "",
+        "hasToilet": "",
+        "hasWIFI": "",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Музеи",
+      "id": 529,
+      "autoParse": true,
+      "category": "Музей",
+      "type": 2,
+      "geometry": "MultiPoint",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "CommonName",
+        "email": [
+          "Email",
+          "0",
+          "Email"
+        ],
+        "website": "WebSite",
+        "phone": [
+          "PublicPhone",
+          "0",
+          "PublicPhone"
+        ],
+        "schedule": "WorkingHours",
+        "isPaid": "",
+        "price": "",
+        "address": [
+          "ObjectAddress",
+          "0",
+          "Address"
+        ]
+      },
+      "data": {
+        "hasFoodPoint": "",
+        "hasChangeRoom": "",
+        "hasToilet": "",
+        "hasWIFI": "",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "FullName",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "ClarificationOfWorkingHours",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Кинотеатры",
+      "id": 495,
+      "autoParse": true,
+      "category": "Кинотеатр",
+      "type": 2,
+      "geometry": "MultiPoint",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "CommonName",
+        "email": [
+          "Email",
+          "0",
+          "Email"
+        ],
+        "website": "WebSite",
+        "phone": [
+          "PublicPhone",
+          "0",
+          "PublicPhone"
+        ],
+        "schedule": "WorkingHours",
+        "isPaid": "",
+        "price": "",
+        "address": [
+          "ObjectAddress",
+          "0",
+          "Address"
+        ]
+      },
+      "data": {
+        "hasFoodPoint": "",
+        "hasChangeRoom": "",
+        "hasToilet": "",
+        "hasWIFI": "",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "FullName",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "ClarificationOfWorkingHours",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Театры",
+      "id": 531,
+      "autoParse": true,
+      "category": "Театр",
+      "type": 2,
+      "geometry": "MultiPoint",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "CommonName",
+        "email": [
+          "Email",
+          "0",
+          "Email"
+        ],
+        "website": "WebSite",
+        "phone": [
+          "PublicPhone",
+          "0",
+          "PublicPhone"
+        ],
+        "schedule": "WorkingHours",
+        "isPaid": "",
+        "price": "",
+        "address": [
+          "ObjectAddress",
+          "0",
+          "Address"
+        ]
+      },
+      "data": {
+        "hasFoodPoint": "",
+        "hasChangeRoom": "",
+        "hasToilet": "",
+        "hasWIFI": "",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "FullName",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "ClarificationOfWorkingHours",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Стрелковые тиры",
+      "id": 888,
+      "autoParse": true,
+      "category": "Тир",
+      "type": 1,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "ObjectName",
+        "email": "Email",
+        "website": "WebSite",
+        "phone": "HelpPhone",
+        "schedule": "WorkingHoursSummer",
+        "isPaid": "Paid",
+        "price": "PaidComments",
+        "address": "Address"
+      },
+      "data": {
+        "hasChangeRoom": "HasDressingRoom",
+        "hasToilet": "HasToilet",
+        "hasFood": "HasEatery",
+        "hasWIFI": "HasWifi",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "UsagePeriodSummer",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Спортивные площадки",
+      "id": 893,
+      "autoParse": true,
+      "category": "Спорт площадка",
+      "type": 1,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "ObjectName",
+        "email": "Email",
+        "website": "WebSite",
+        "phone": "HelpPhone",
+        "schedule": "WorkingHoursSummer",
+        "isPaid": "Paid",
+        "price": "PaidComments",
+        "address": "Address"
+      },
+      "data": {
+        "hasChangeRoom": "HasDressingRoom",
+        "hasToilet": "HasToilet",
+        "hasFood": "HasEatery",
+        "hasWIFI": "HasWifi",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "UsagePeriodSummer",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Синагоги",
+      "id": 2268,
+      "autoParse": true,
+      "category": "Синагога",
+      "type": 5,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "ObjectName",
+        "email": "Email",
+        "website": "WebSite",
+        "phone": "PublicPhone",
+        "schedule": "",
+        "isPaid": "",
+        "price": "",
+        "address": "Address"
+      },
+      "data": {
+        "hasFoodPoint": "",
+        "hasChangeRoom": "",
+        "hasToilet": "",
+        "hasWIFI": "",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Религиозные объекты Русской православной церкви",
+      "id": 2624,
+      "autoParse": true,
+      "category": "Православная церковь",
+      "type": 9,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "Name",
+        "email": "",
+        "website": "WebSite",
+        "phone": [
+          "PublicPhone",
+          "0",
+          "PublicPhone"
+        ],
+        "schedule": "",
+        "isPaid": "",
+        "price": "",
+        "address": "Address"
+      },
+      "data": {
+        "hasFoodPoint": "",
+        "hasChangeRoom": "",
+        "hasToilet": "",
+        "hasWIFI": "",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "",
+        "subway": "MetroStation"
+      }
+    },
+    {
+      "name": "Парковые территории",
+      "id": 1465,
+      "autoParse": true,
+      "category": "Парк",
+      "type": 10,
+      "geometry": "Polygon",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "CommonName",
+        "email": "",
+        "website": "ParkWebSite",
+        "phone": [
+          "ParkPhone",
+          "0",
+          "ParkPhone"
+        ],
+        "schedule": "WorkingHours",
+        "isPaid": "",
+        "price": "",
+        "address": "Location"
+      },
+      "data": {
+        "hasFoodPoint": "",
+        "hasChangeRoom": "",
+        "hasToilet": "",
+        "hasWIFI": "",
+        "hasWater": "HasWater",
+        "hasChild": "HasPlayground",
+        "hasSport": "HasSportground",
+        "info": "EntranceAdditionalInformation",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Площадки пейнтбольные",
+      "id": 895,
+      "autoParse": true,
+      "category": "Пейнтбол",
+      "type": 1,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "ObjectName",
+        "email": "Email",
+        "website": "WebSite",
+        "phone": "HelpPhone",
+        "schedule": "WorkingHoursSummer",
+        "isPaid": "Paid",
+        "price": "PaidComments",
+        "address": "Address"
+      },
+      "data": {
+        "hasChangeRoom": "HasDressingRoom",
+        "hasToilet": "HasToilet",
+        "hasFood": "HasEatery",
+        "hasWIFI": "HasWifi",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "UsagePeriodSummer",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Поля футбольные",
+      "id": 886,
+      "autoParse": true,
+      "category": "Футбол",
+      "type": 1,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "ObjectName",
+        "email": "Email",
+        "website": "WebSite",
+        "phone": "HelpPhone",
+        "schedule": "WorkingHoursSummer",
+        "isPaid": "Paid",
+        "price": "PaidComments",
+        "address": "Address"
+      },
+      "data": {
+        "hasChangeRoom": "HasDressingRoom",
+        "hasToilet": "HasToilet",
+        "hasFood": "HasEatery",
+        "hasWIFI": "HasWifi",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "UsagePeriodSummer",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Поля регбийные",
+      "id": 885,
+      "autoParse": true,
+      "category": "Регби",
+      "type": 1,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "ObjectName",
+        "email": "Email",
+        "website": "WebSite",
+        "phone": "HelpPhone",
+        "schedule": "WorkingHoursSummer",
+        "isPaid": "Paid",
+        "price": "PaidComments",
+        "address": "Address"
+      },
+      "data": {
+        "hasChangeRoom": "HasDressingRoom",
+        "hasToilet": "HasToilet",
+        "hasFood": "HasEatery",
+        "hasWIFI": "HasWifi",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "UsagePeriodSummer",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Скалодромы крытые",
+      "id": 1387,
+      "autoParse": true,
+      "category": "Скалодром",
+      "type": 1,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "ObjectName",
+        "email": "Email",
+        "website": "WebSite",
+        "phone": "HelpPhone",
+        "schedule": "WorkingHoursSummer",
+        "isPaid": "Paid",
+        "price": "PaidComments",
+        "address": "Address"
+      },
+      "data": {
+        "hasChangeRoom": "HasDressingRoom",
+        "hasToilet": "HasToilet",
+        "hasFood": "HasEatery",
+        "hasWIFI": "HasWifi",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "UsagePeriodSummer",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Аттракционы в торгово-развлекательных комплексах",
+      "id": 3227,
+      "autoParse": true,
+      "category": "Аттракционы",
+      "type": 0,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "Name",
+        "email": "",
+        "website": "",
+        "phone": "",
+        "schedule": "",
+        "isPaid": "",
+        "price": "",
+        "address": "Location"
+      },
+      "data": {
+        "hasFoodPoint": "",
+        "hasChangeRoom": "",
+        "hasToilet": "",
+        "hasWIFI": "",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Места для досуга и отдыха с детьми",
+      "id": 2249,
+      "autoParse": true,
+      "category": "Досуг",
+      "type": 7,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "Name",
+        "email": "",
+        "website": "",
+        "phone": "",
+        "schedule": "EventDate",
+        "isPaid": "PaymentInfo",
+        "price": "",
+        "address": "DescriptionLocation"
+      },
+      "data": {
+        "hasFoodPoint": "",
+        "hasChangeRoom": "",
+        "hasToilet": "",
+        "hasWIFI": "",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "TIME",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Стационарные торговые объекты",
+      "id": 3304,
+      "autoParse": false,
+      "category": "",
+      "type": 8,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "Name",
+        "email": "",
+        "website": "",
+        "phone": [
+          "PublicPhone",
+          "0",
+          "PublicPhone"
+        ],
+        "schedule": "WorkingHours",
+        "isPaid": "",
+        "price": "",
+        "address": "Address"
+      },
+      "data": {
+        "hasFoodPoint": "",
+        "hasChangeRoom": "",
+        "hasToilet": "",
+        "hasWIFI": "",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "",
+        "subway": ""
+      }
+    },
+    {
+      "name": "Общественное питание в Москве",
+      "id": 1903,
+      "autoParse": false,
+      "category": "",
+      "type": 8,
+      "geometry": "Point",
+      "base": [
+        "properties",
+        "attributes"
+      ],
+      "fields": {
+        "name": "Name",
+        "email": "",
+        "website": "",
+        "phone": [
+          "PublicPhone",
+          "0",
+          "PublicPhone"
+        ],
+        "schedule": "",
+        "isPaid": "",
+        "price": "",
+        "address": "Address"
+      },
+      "data": {
+        "hasFoodPoint": "",
+        "hasChangeRoom": "",
+        "hasToilet": "",
+        "hasWIFI": "",
+        "hasWater": "",
+        "hasChild": "",
+        "hasSport": "",
+        "info": "",
+        "priceInfo": "",
+        "conditions": "",
+        "time": "",
+        "subway": ""
+      }
+    }
+  ]
+}

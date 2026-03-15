@@ -1,0 +1,517 @@
+basePath: /
+definitions:
+  apperrors.AppError:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+  domain.Category:
+    properties:
+      _id:
+        type: string
+      name:
+        type: string
+      places:
+        items:
+          type: string
+        type: array
+      svg:
+        type: string
+    type: object
+  domain.CreatePathDTO:
+    properties:
+      prompt:
+        type: string
+      startPosition:
+        items:
+          type: number
+        type: array
+    type: object
+  domain.EventPlace:
+    properties:
+      _id:
+        type: string
+      description:
+        type: string
+      finish_time:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      name:
+        type: string
+      start_time:
+        type: string
+    type: object
+  domain.Path:
+    properties:
+      _id:
+        type: string
+      segments:
+        items:
+          type: string
+        type: array
+      user:
+        type: string
+    type: object
+  domain.PathSegment:
+    properties:
+      _id:
+        type: string
+      path:
+        type: string
+      place:
+        type: string
+      type:
+        description: fixed | embedding | category | event | route
+        type: string
+    type: object
+  domain.Place:
+    properties:
+      _id:
+        type: string
+      address:
+        type: string
+      categories:
+        items:
+          type: string
+        type: array
+      data:
+        $ref: '#/definitions/domain.PlaceData'
+      email:
+        type: string
+      isPaid:
+        type: boolean
+      latitude:
+        type: number
+      longitude:
+        type: number
+      name:
+        type: string
+      phone:
+        type: string
+      price:
+        type: string
+      schedule: {}
+      type:
+        type: integer
+      website:
+        type: string
+    type: object
+  domain.PlaceData:
+    properties:
+      conditions:
+        type: string
+      hasChangeRoom:
+        type: boolean
+      hasChild:
+        type: boolean
+      hasFoodPoint:
+        type: boolean
+      hasSport:
+        type: boolean
+      hasToilet:
+        type: boolean
+      hasWIFI:
+        type: boolean
+      hasWater:
+        type: boolean
+      info:
+        type: string
+      priceInfo:
+        type: string
+      subway:
+        type: string
+      time: {}
+    type: object
+  domain.UserLoginDTO:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  domain.UserPublic:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  domain.UserRegisterDTO:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact: {}
+  description: Backend API for route generation service
+  title: HSE Vibe Hack API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Login credentials
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.UserLoginDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Bearer token
+          schema:
+            type: string
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+      summary: Login user
+      tags:
+      - Auth
+  /auth/profile:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.UserPublic'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+      security:
+      - BearerAuth: []
+      summary: Get current user profile
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Registration data
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.UserRegisterDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Bearer token
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+      summary: Register a new user
+      tags:
+      - Auth
+  /categories/all:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Category'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+      summary: Get all categories
+      tags:
+      - Categories
+  /categories/id/place/{place_id}:
+    get:
+      parameters:
+      - description: Place ID
+        in: path
+        name: place_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Category'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+      summary: Get categories by place ID
+      tags:
+      - Categories
+  /event-places/all:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.EventPlace'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+      summary: Get all event places
+      tags:
+      - EventPlaces
+  /event-places/id/{event_id}:
+    get:
+      parameters:
+      - description: Event Place ID
+        in: path
+        name: event_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.EventPlace'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+      summary: Get event place by ID
+      tags:
+      - EventPlaces
+  /path/{path_id}:
+    get:
+      parameters:
+      - description: Path ID
+        in: path
+        name: path_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Path'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+      summary: Get path by ID
+      tags:
+      - Paths
+  /path/{path_id}/segments:
+    get:
+      parameters:
+      - description: Path ID
+        in: path
+        name: path_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.PathSegment'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+      summary: Get path segments by path ID
+      tags:
+      - Paths
+  /path/all:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Path'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+      summary: Get all paths
+      tags:
+      - Paths
+  /path/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Prompt and start position
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/domain.CreatePathDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Place'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+      summary: Create a new path (AI-generated route)
+      tags:
+      - Paths
+  /ping/ping:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+      summary: Health check
+      tags:
+      - Ping
+  /places/all:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Place'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+      summary: Get all places
+      tags:
+      - Places
+  /places/id/{place_id}:
+    get:
+      parameters:
+      - description: Place ID
+        in: path
+        name: place_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Place'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+      summary: Get place by ID
+      tags:
+      - Places
+  /places/id/category/{category_id}:
+    get:
+      parameters:
+      - description: Category ID
+        in: path
+        name: category_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Place'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/apperrors.AppError'
+      summary: Get places by category ID
+      tags:
+      - Places
+securityDefinitions:
+  BearerAuth:
+    description: 'Enter your bearer token: "Bearer: <token>"'
+    in: header
+    name: auth
+    type: apiKey
+swagger: "2.0"
