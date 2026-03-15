@@ -43,6 +43,8 @@ type PlaceRepository interface {
 	FindByID(ctx context.Context, id primitive.ObjectID) (*Place, error)
 	FindByName(ctx context.Context, name string) ([]Place, error)
 	Save(ctx context.Context, place *Place) error
+	InsertMany(ctx context.Context, places []*Place) (insertedIDs []primitive.ObjectID, err error)
+	EnsurePlaceUniqueIndex(ctx context.Context) error
 	SetCategories(ctx context.Context, id primitive.ObjectID, categoryIDs []primitive.ObjectID) error
 	Clear(ctx context.Context) error
 }

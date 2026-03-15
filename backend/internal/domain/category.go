@@ -19,6 +19,7 @@ type CategoryRepository interface {
 	FindByName(ctx context.Context, name string) (*Category, error)
 	Save(ctx context.Context, category *Category) error
 	AddPlace(ctx context.Context, categoryID, placeID primitive.ObjectID) error
+	AddPlaces(ctx context.Context, categoryID primitive.ObjectID, placeIDs []primitive.ObjectID) error
 	Clear(ctx context.Context) error
 	ClearPlaces(ctx context.Context) error
 }

@@ -17,8 +17,20 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-// Bounding box for Moscow (south,west,north,east).
-const moscowBBox = "55.49,37.32,55.92,37.97"
+// Bounding box for Moscow (south, west, north, east).
+const (
+	moscowSouth = 55.49
+	moscowWest  = 37.32
+	moscowNorth = 55.92
+	moscowEast  = 37.97
+)
+
+// bboxGridRows/Cols — разбиение Москвы на тайлы для батч-запросов к Overpass.
+const bboxGridRows = 4
+const bboxGridCols = 4
+
+// placeBatchSize — размер батча для записи мест в БД.
+const placeBatchSize = 200
 
 // overpassURL is the public Overpass API endpoint.
 const overpassURL = "https://overpass-api.de/api/interpreter"
@@ -127,6 +139,9 @@ type osmCenter struct {
 }
 
 func (s *ParseService) initPlaces(ctx context.Context) error {
+	if err := s.placeRepo.EnsurePlaceUniqueIndex(ctx); err != nil {
+		log.Printf("[parseService] EnsurePlaceUniqueIndex: %v (continuing)", err)
+	}
 	data, err := os.ReadFile("internal/usecase/osm-places.json")
 	if err != nil {
 		return fmt.Errorf("read osm-places.json: %w", err)
@@ -138,12 +153,6 @@ func (s *ParseService) initPlaces(ctx context.Context) error {
 	}
 
 	for i, def := range pf.Data {
-		// Skip categories that already have places.
-		if cat, err := s.categoryRepo.FindByName(ctx, def.Category); err == nil && len(cat.Places) > 0 {
-			log.Printf("[parseService] skip %q — already has %d places", def.Category, len(cat.Places))
-			continue
-		}
-
 		if err := s.getPlacesFromOSM(ctx, def); err != nil {
 			log.Printf("[parseService] error processing %d (%s): %v", i, def.Name, err)
 		}
@@ -161,108 +170,177 @@ func (s *ParseService) initPlaces(ctx context.Context) error {
 // retryDelays defines wait times between retries on HTTP 429.
 var retryDelays = []time.Duration{30 * time.Second, 60 * time.Second, 120 * time.Second}
 
-// getPlacesFromOSM queries the Overpass API and saves the results to MongoDB.
-// Retries automatically on HTTP 429 (rate limit) with increasing delays.
+// getPlacesFromOSM запрашивает Overpass по тайлам Москвы и сохраняет результаты в БД батчами.
+// При HTTP 429 повторяет запрос с увеличивающейся задержкой.
 func (s *ParseService) getPlacesFromOSM(ctx context.Context, def osmPlaceDef) error {
-	query := buildOverpassQuery(def.Filters, moscowBBox)
+	cat, err := s.categoryRepo.FindByName(ctx, def.Category)
+	if err != nil {
+		return fmt.Errorf("category %q: %w", def.Category, err)
+	}
 
-	var (
-		body []byte
-		resp *http.Response
-	)
+	tiles := moscowBBoxTiles()
+	var batch []*domain.Place
+	totalInserted := 0
+
+	flushBatch := func() error {
+		if len(batch) == 0 {
+			return nil
+		}
+		insertedIDs, err := s.placeRepo.InsertMany(ctx, batch)
+		if err != nil {
+			return fmt.Errorf("InsertMany %d places: %w", len(batch), err)
+		}
+		if len(insertedIDs) > 0 {
+			if err := s.categoryRepo.AddPlaces(ctx, cat.ID, insertedIDs); err != nil {
+				return fmt.Errorf("AddPlaces: %w", err)
+			}
+		}
+		totalInserted += len(insertedIDs)
+		batch = batch[:0]
+		return nil
+	}
+
+	for ti, tile := range tiles {
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		default:
+		}
+
+		osmResp, err := s.fetchOverpassTile(ctx, def, tile)
+		if err != nil {
+			log.Printf("[parseService] overpass tile %d/%d %s: %v", ti+1, len(tiles), def.Name, err)
+			continue
+		}
+
+		for _, el := range osmResp.Elements {
+			lat, lon, ok := osmCoords(el)
+			if !ok || (lat == 0 && lon == 0) {
+				continue
+			}
+			name := osmName(el.Tags)
+			if name == "" {
+				continue
+			}
+			place := &domain.Place{
+				ID:        primitive.NewObjectID(),
+				Type:      def.Type,
+				Latitude:  lat,
+				Longitude: lon,
+				Name:      name,
+				Address:   osmAddress(el.Tags),
+				Phone:     osmPhone(el.Tags),
+				Website:   osmWebsite(el.Tags),
+				Schedule:  osmOpeningHours(el.Tags),
+				Categories: []primitive.ObjectID{cat.ID},
+			}
+			batch = append(batch, place)
+			if len(batch) >= placeBatchSize {
+				if err := flushBatch(); err != nil {
+					return err
+				}
+			}
+		}
+
+		if ti < len(tiles)-1 {
+			select {
+			case <-ctx.Done():
+				return ctx.Err()
+			case <-time.After(overpassDelay):
+			}
+		}
+	}
+
+	if err := flushBatch(); err != nil {
+		return err
+	}
+	log.Printf("[parseService] OSM %s (%s): inserted %d places in batches", def.Name, def.Category, totalInserted)
+	return nil
+}
+
+// fetchOverpassTile выполняет один запрос к Overpass API для заданного тайла.
+func (s *ParseService) fetchOverpassTile(ctx context.Context, def osmPlaceDef, b bbox) (*osmResponse, error) {
+	query := buildOverpassQuery(def.Filters, b.string())
+	var body []byte
 	for attempt := 0; ; attempt++ {
 		formData := url.Values{}
 		formData.Set("data", query)
-
-		req, err := http.NewRequestWithContext(ctx, "POST", overpassURL,
-			strings.NewReader(formData.Encode()))
+		req, err := http.NewRequestWithContext(ctx, "POST", overpassURL, strings.NewReader(formData.Encode()))
 		if err != nil {
-			return fmt.Errorf("create overpass request: %w", err)
+			return nil, fmt.Errorf("create request: %w", err)
 		}
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
-		resp, err = s.httpClient.Do(req)
+		resp, err := s.httpClient.Do(req)
 		if err != nil {
-			return fmt.Errorf("overpass request: %w", err)
+			return nil, fmt.Errorf("request: %w", err)
 		}
-
 		body, err = io.ReadAll(resp.Body)
 		resp.Body.Close()
 		if err != nil {
-			return fmt.Errorf("read overpass body: %w", err)
+			return nil, fmt.Errorf("read body: %w", err)
 		}
 
 		if resp.StatusCode == http.StatusTooManyRequests {
 			if attempt >= len(retryDelays) {
-				return fmt.Errorf("overpass rate limited after %d retries", attempt)
+				return nil, fmt.Errorf("rate limited after %d retries", attempt)
 			}
 			wait := retryDelays[attempt]
-			log.Printf("[parseService] overpass 429 for %q, retry in %v (attempt %d/%d)",
-				def.Name, wait, attempt+1, len(retryDelays))
+			log.Printf("[parseService] overpass 429 for %q, retry in %v", def.Name, wait)
 			select {
 			case <-ctx.Done():
-				return ctx.Err()
+				return nil, ctx.Err()
 			case <-time.After(wait):
 			}
 			continue
 		}
-
 		if resp.StatusCode != http.StatusOK {
 			preview := string(body)
 			if len(preview) > 200 {
 				preview = preview[:200]
 			}
-			return fmt.Errorf("overpass HTTP %d: %s", resp.StatusCode, preview)
+			return nil, fmt.Errorf("HTTP %d: %s", resp.StatusCode, preview)
 		}
 		break
 	}
 
 	var osmResp osmResponse
 	if err := json.Unmarshal(body, &osmResp); err != nil {
-		return fmt.Errorf("unmarshal overpass response: %w", err)
+		return nil, fmt.Errorf("unmarshal: %w", err)
 	}
+	return &osmResp, nil
+}
 
-	log.Printf("[parseService] OSM %s (%s): %d elements", def.Name, def.Category, len(osmResp.Elements))
+// bbox represents a bounding box (south, west, north, east).
+type bbox struct{ south, west, north, east float64 }
 
-	for _, el := range osmResp.Elements {
-		lat, lon, ok := osmCoords(el)
-		if !ok || (lat == 0 && lon == 0) {
-			continue
+func (b bbox) string() string {
+	return fmt.Sprintf("%.4f,%.4f,%.4f,%.4f", b.south, b.west, b.north, b.east)
+}
+
+// moscowBBoxTiles returns a slice of bboxes that partition Moscow.
+func moscowBBoxTiles() []bbox {
+	latStep := (moscowNorth - moscowSouth) / float64(bboxGridRows)
+	lonStep := (moscowEast - moscowWest) / float64(bboxGridCols)
+	var tiles []bbox
+	for row := 0; row < bboxGridRows; row++ {
+		for col := 0; col < bboxGridCols; col++ {
+			south := moscowSouth + float64(row)*latStep
+			west := moscowWest + float64(col)*lonStep
+			tiles = append(tiles, bbox{
+				south: south,
+				west:  west,
+				north: south + latStep,
+				east:  west + lonStep,
+			})
 		}
-
-		place := domain.Place{
-			ID:        primitive.NewObjectID(),
-			Type:      def.Type,
-			Latitude:  lat,
-			Longitude: lon,
-			Name:      osmName(el.Tags),
-			Address:   osmAddress(el.Tags),
-			Phone:     osmPhone(el.Tags),
-			Website:   osmWebsite(el.Tags),
-			Schedule:  osmOpeningHours(el.Tags),
-		}
-
-		if place.Name == "" {
-			continue
-		}
-
-		if err := s.placeRepo.Save(ctx, &place); err != nil {
-			continue
-		}
-
-		cat, err := s.categoryRepo.FindByName(ctx, def.Category)
-		if err != nil {
-			continue
-		}
-		_ = s.categoryRepo.AddPlace(ctx, cat.ID, place.ID)
-		_ = s.placeRepo.SetCategories(ctx, place.ID, []primitive.ObjectID{cat.ID})
 	}
-	return nil
+	return tiles
 }
 
 // buildOverpassQuery constructs an Overpass QL query for the given tag filters
 // within the specified bounding box (south,west,north,east).
-func buildOverpassQuery(filters map[string]string, bbox string) string {
+func buildOverpassQuery(filters map[string]string, bboxStr string) string {
 	var filterStr strings.Builder
 	for k, v := range filters {
 		fmt.Fprintf(&filterStr, `["%s"="%s"]`, k, v)
@@ -270,7 +348,7 @@ func buildOverpassQuery(filters map[string]string, bbox string) string {
 	f := filterStr.String()
 	return fmt.Sprintf(
 		`[out:json][timeout:120];(node%s(%s);way%s(%s);relation%s(%s););out center;`,
-		f, bbox, f, bbox, f, bbox,
+		f, bboxStr, f, bboxStr, f, bboxStr,
 	)
 }
 

@@ -62,6 +62,14 @@ func (r *categoryRepo) AddPlace(ctx context.Context, categoryID, placeID primiti
 	return err
 }
 
+func (r *categoryRepo) AddPlaces(ctx context.Context, categoryID primitive.ObjectID, placeIDs []primitive.ObjectID) error {
+	if len(placeIDs) == 0 {
+		return nil
+	}
+	_, err := r.col.UpdateByID(ctx, categoryID, bson.M{"$addToSet": bson.M{"places": bson.M{"$each": placeIDs}}})
+	return err
+}
+
 func (r *categoryRepo) Clear(ctx context.Context) error {
 	return r.col.Drop(ctx)
 }
