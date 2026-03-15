@@ -14,7 +14,6 @@ type Config struct {
 	RedisPort string
 	RedisTTL  int
 
-	MosDataKey   string
 	TimepadKey   string
 	RouterKey    string
 	RouterURL    string
@@ -36,7 +35,6 @@ func Load() *Config {
 		RedisPort: getEnv("REDIS_PORT", "6379"),
 		RedisTTL:  redisTTL,
 
-		MosDataKey:   getEnv("MOS_DATA_KEY", ""),
 		TimepadKey:   getEnv("TIMEPAD", ""),
 		RouterKey:    getEnv("ROUTER_KEY", ""),
 		RouterURL:    getEnv("ROUTER_URL", "https://api.openrouteservice.org"),
