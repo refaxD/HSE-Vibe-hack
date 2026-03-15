@@ -7,7 +7,7 @@
       "v3.0": {
         "generatorName": "typescript-angular",
         "skipValidateSpec": true,
-        "inputSpec": "../backend/src/routes/swagger.json",
+        "inputSpec": "../backend/docs/swagger.json",
         "output": "./src/generated",
         "additionalProperties": {
           "enumPropertyNaming": "UPPERCASE"
