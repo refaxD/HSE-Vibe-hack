@@ -4,6 +4,7 @@ import { NotificationsService } from "../../../core/services/notifications.servi
 
 @Component({
 	selector: "Notifications",
+    standalone: true,
 	imports: [],
 	styleUrl: "./notifications.component.css",
 	encapsulation: ViewEncapsulation.None,

@@ -3,6 +3,7 @@ import { Place } from "../../../generated";
 
 @Pipe({
 	name: "placeSearch",
+    standalone: true,
 })
 export class PlaceSearchPipe implements PipeTransform {
 

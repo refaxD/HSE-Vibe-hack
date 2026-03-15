@@ -9,6 +9,7 @@ import { isInstanceOfEventPlace, isInstanceOfPlace } from "../../../core/service
 
 @Component({
 	selector: "PathInformation",
+    standalone: true,
 	imports: [
 		MoveableDirective,
 	],
