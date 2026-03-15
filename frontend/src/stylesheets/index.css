@@ -1,0 +1,46 @@
+*, *::before, *::after {
+	box-sizing:      border-box;
+	margin:          0;
+	padding:         0;
+	text-decoration: none;
+	color:           inherit;
+}
+
+*::-webkit-scrollbar {
+	width:   0;
+	display: none;
+}
+
+html, body {
+	width:      100vw;
+	height:     100vh;
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+
+body {
+	font-family: var(--ff-roboto), sans-serif;
+	overflow-y:  scroll !important;
+	color:       var(--text-primary);
+	background:  var(--background-primary);
+}
+
+input, button, select {
+	outline:        0;
+	outline-offset: 0;
+}
+
+img {
+	-moz-user-select:    none;
+	-ms-user-select:     none;
+	-webkit-user-select: none;
+	user-select:         none;
+	user-drag:           none;
+	-webkit-user-drag:   none;
+}
+
+
+.allow-selection {
+	-webkit-user-select: text;
+	user-select:         text;
+}

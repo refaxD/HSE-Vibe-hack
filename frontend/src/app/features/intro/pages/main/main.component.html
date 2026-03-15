@@ -1,0 +1,24 @@
+<div class="container" [class.finish]="finish()">
+
+    <img class="background" alt="" src="intro/background.avif">
+
+    <div>
+        <p class="text-3xl font-semibold leading-[2.5rem]">Дайте нам прокачать <br> ваш маршрут</p>
+        <p class="text-lg font-normal text-text-secondary mt-[0px]">Создавайте маршруты и путешествуйте вместе</p>
+    </div>
+
+    <div class="btn">
+        <div moveable [state]="state" [class.disabled]="!disabled()" [valid]="disabled" [isPopup]="false" [minHeight]="70" [maxHeight]="160" class="circle-content">
+            <div class="circle" #circle>
+                @if (!disabled()) {
+                    <svg viewBox="25 25 50 50">
+                        <circle r="20" cy="50" cx="50"></circle>
+                    </svg>
+                } @else {
+                    <p>GO</p>
+                }
+            </div>
+        </div>
+    </div>
+
+</div>

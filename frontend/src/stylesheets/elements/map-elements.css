@@ -1,0 +1,45 @@
+.user-map-marker {
+	/* Стили для контейнера маркера */
+	width:  30px; /* Ширина маркера */
+	height: 30px; /* Высота маркера */
+	display:         flex;
+	align-items:     center;
+	justify-content: center;
+	font-size:       20px; /* Размер текста */
+	font-weight:     bold; /* Жирный текст */
+	position:        relative;
+	transition:      transform 0.3s; /* Плавный эффект при наведении */
+	color:           white; /* Цвет текста */
+	border-radius:   50%; /* Закругленные углы для создания круга */
+	background:      linear-gradient(135deg, #ff4081, #ff6f20); /* Яркий градиентный фон */
+	box-shadow:      0 8px 15px rgba(0, 0, 0, 0.4); /* Тень для глубины */
+
+	/* Стиль для внутреннего круга */
+
+	.inner-circle {
+		width:  20px; /* Внутренний круг */
+		height: 20px;
+		display:         flex;
+		align-items:     center;
+		justify-content: center;
+		font-size:       16px; /* Размер текста внутри */
+		font-weight:     bold; /* Жирный текст */
+		position:        absolute;
+		color:           #ff4081; /* Цвет текста внутри */
+		border-radius:   50%; /* Закругленные углы */
+		background:      white; /* Цвет внутреннего круга */
+	}
+}
+
+.selected-prompt-place-map-marker {
+	width:         30px;
+	height:        30px;
+	display:         flex;
+	align-items:     center;
+	flex-direction:  row;
+	justify-content: center;
+	position:      relative;
+	border:        3px solid white;
+	border-radius: 50%;
+	background:    linear-gradient(45deg, #ff0066, #ffcc00);
+}

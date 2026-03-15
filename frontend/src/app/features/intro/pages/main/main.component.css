@@ -1,0 +1,129 @@
+.container {
+    position:        fixed;
+    top:             0;
+    left:            0;
+    width:           100vw;
+    height:          100vh;
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    flex-direction:  column;
+    padding:         100px 16px 50px;
+    transition:      all .3s ease-out;
+    z-index:         1500;
+    background-color: var(--background-primary);
+
+    &.finish {
+        transform: translateY(-100%);
+    }
+
+    p {
+        text-align: center;
+    }
+
+    &::before {
+        content:    "";
+        position:   absolute;
+        top:        0;
+        left:       0;
+        width:      100%;
+        height:     100%;
+        background: rgba(0, 0, 0, .5);
+        z-index:    -1;
+    }
+
+    .background {
+        position: absolute;
+        top:      0;
+        left:     0;
+        width:    100%;
+        height:   100%;
+        z-index:  -2;
+    }
+}
+
+.btn {
+    --width:       80px;
+    --pd:          5px;
+
+    width:         var(--width);
+    height:        160px;
+    position:      relative;
+    background:    linear-gradient(0deg, rgba(255, 255, 255, .6) 0%, rgba(255, 255, 255, 0) 100%);
+    border-radius: 0 0 var(--br-100) var(--br-100);
+
+    .circle-content {
+        position:   absolute;
+        bottom:     5px;
+        height:     100%;
+        left:       var(--pd);
+        width:      70px;
+        max-height: 70px;
+        z-index:    1;
+
+        &:not(.disabled) {
+            .circle {
+                background: var(--neutral-0) !important;
+            }
+        }
+    }
+
+    .circle {
+        position:        absolute;
+        width:           100%;
+        top:             0;
+        left:            0;
+        aspect-ratio:    1;
+        background:      var(--neutral-30);
+        color:           var(--neutral-1);
+        display:         flex;
+        align-items:     center;
+        justify-content: center;
+        border-radius:   var(--br-100);
+        cursor:          pointer;
+        user-select:     none;
+        transition:      background .3s ease-in-out;
+
+        p {
+            font-size:   25px;
+            font-weight: 600;
+            line-height: 25px;
+        }
+
+        svg {
+            width:            3.25em;
+            transform-origin: center;
+            animation:        rotate4 2s linear infinite;
+        }
+
+        circle {
+            fill:              none;
+            stroke:            var(--background-secondary);
+            stroke-width:      3;
+            stroke-dasharray:  1, 200;
+            stroke-dashoffset: 0;
+            stroke-linecap:    round;
+            animation:         dash4 1.5s ease-in-out infinite;
+        }
+    }
+}
+
+@keyframes rotate4 {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dash4 {
+    0% {
+        stroke-dasharray:  1, 200;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray:  90, 200;
+        stroke-dashoffset: -35px;
+    }
+    100% {
+        stroke-dashoffset: -125px;
+    }
+}

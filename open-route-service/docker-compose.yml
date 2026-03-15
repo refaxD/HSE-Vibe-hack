@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  ors:
+    image: giscience/openrouteservice
+    ports:
+      - "8080:8080"
+    environment:
+      - ORS_CONFIG=/ors-config/ors-config.json
+    volumes:
+      - ./ors-config:/ors-config

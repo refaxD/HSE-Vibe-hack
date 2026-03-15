@@ -1,0 +1,19 @@
+@import 'stylesheets/variables.css';
+@import "stylesheets/normalize.css";
+@import "stylesheets/index.css";
+@import "stylesheets/fonts.css";
+
+@import 'stylesheets/elements/map-elements.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.container {
+    all:             unset;
+    box-sizing:      border-box;
+    margin:          0;
+    padding:         0;
+    color:           inherit;
+    text-decoration: none;
+}

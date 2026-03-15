@@ -1,0 +1,98 @@
+name: trip-tuner
+
+services:
+  mongo:
+    container_name: mongodb
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    logging:
+      options:
+        max-size: 1g
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    image: mongo
+    volumes:
+      - mongo-data:/data/db
+
+  redis:
+    image: redis:latest
+    container_name: redis_container
+    volumes:
+      - redis-data:/data
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    command: >
+      sh -c '
+        mkdir -p /usr/local/etc/redis &&
+        echo "bind 0.0.0.0" > /usr/local/etc/redis/redis.conf &&
+        echo "appendonly yes" >> /usr/local/etc/redis/redis.conf &&
+        echo "appendfsync everysec" >> /usr/local/etc/redis/redis.conf &&
+        redis-server /usr/local/etc/redis/redis.conf
+      '
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    ports:
+      - 6379:6379
+    restart: unless-stopped
+
+  ors-app:
+    container_name: ors-app
+    ports:
+      - "8080:8082"
+      - "9001:9001"
+    image: openrouteservice/openrouteservice:latest
+    volumes:
+      - ors-data:/home/ors
+    environment:
+      REBUILD_GRAPHS: False
+      CONTAINER_LOG_LEVEL: INFO
+      XMS: 1g
+      XMX: 2g
+      ADDITIONAL_JAVA_OPTS: ""
+
+#  backend:
+#    build: ./backend
+#    environment:
+#      DATABASE_URL: "mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongo:27017/apidb?authSource=admin&directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.3.2"
+#      REDIS_URL: "redis:6379"
+#    restart: unless-stopped
+#    env_file:
+#      - path: .env
+#        required: false
+#      - path: .prod_env
+#        required: false
+#    depends_on:
+#      - mongo
+#      - redis
+#    ports:
+#      - "3000:3000"
+#
+#  frontend:
+#    build: ./frontend
+#    restart: unless-stopped
+#    depends_on:
+#      - backend
+#    command:
+#      sh -c '
+#        ng serve --host 0.0.0.0
+#      '
+#    ports:
+#      - "4200:4200"
+#    volumes:
+#      - "./frontend:/frontend"
+
+volumes:
+  mongo-data:
+  redis-data:
+  ors-data:
