@@ -19,12 +19,10 @@ type Config struct {
 	RouterURL    string
 	OpenAIAPIKey string
 
-	ParseEntities bool
 }
 
 func Load() *Config {
 	redisTTL, _ := strconv.Atoi(getEnv("REDIS_TTL", "86400"))
-	parseEntities, _ := strconv.ParseBool(getEnv("PARSE_ENTITIES", "false"))
 
 	return &Config{
 		NodeEnv:  getEnv("NODE_ENV", "development"),
@@ -40,7 +38,6 @@ func Load() *Config {
 		RouterURL:    getEnv("ROUTER_URL", "https://api.openrouteservice.org"),
 		OpenAIAPIKey: getEnv("OPENAI_API_KEY", ""),
 
-		ParseEntities: parseEntities,
 	}
 }
 

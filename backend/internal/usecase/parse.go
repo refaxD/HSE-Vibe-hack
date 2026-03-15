@@ -76,17 +76,21 @@ func (s *ParseService) Run(ctx context.Context) {
 // ---- Categories ----
 
 func (s *ParseService) initCategories(ctx context.Context) error {
-	if err := s.categoryRepo.Clear(ctx); err != nil {
-		return err
-	}
-
 	categories := getDefaultCategories()
-	for i, cat := range categories {
-		if err := s.categoryRepo.Save(ctx, &cat); err != nil {
-			return fmt.Errorf("save category %d: %w", i, err)
+	created := 0
+	for _, cat := range categories {
+		if _, err := s.categoryRepo.FindByName(ctx, cat.Name); err == nil {
+			// already exists
+			continue
 		}
+		c := cat
+		if err := s.categoryRepo.Save(ctx, &c); err != nil {
+			log.Printf("[parseService] save category %q: %v", cat.Name, err)
+			continue
+		}
+		created++
 	}
-	log.Printf("[parseService] saved %d categories", len(categories))
+	log.Printf("[parseService] categories: %d created, %d already existed", created, len(categories)-created)
 	return nil
 }
 
@@ -123,13 +127,6 @@ type osmCenter struct {
 }
 
 func (s *ParseService) initPlaces(ctx context.Context) error {
-	if err := s.placeRepo.Clear(ctx); err != nil {
-		return err
-	}
-	if err := s.categoryRepo.ClearPlaces(ctx); err != nil {
-		return err
-	}
-
 	data, err := os.ReadFile("internal/usecase/osm-places.json")
 	if err != nil {
 		return fmt.Errorf("read osm-places.json: %w", err)
@@ -141,9 +138,16 @@ func (s *ParseService) initPlaces(ctx context.Context) error {
 	}
 
 	for i, def := range pf.Data {
+		// Skip categories that already have places.
+		if cat, err := s.categoryRepo.FindByName(ctx, def.Category); err == nil && len(cat.Places) > 0 {
+			log.Printf("[parseService] skip %q — already has %d places", def.Category, len(cat.Places))
+			continue
+		}
+
 		if err := s.getPlacesFromOSM(ctx, def); err != nil {
 			log.Printf("[parseService] error processing %d (%s): %v", i, def.Name, err)
 		}
+
 		// Polite delay between Overpass requests.
 		select {
 		case <-ctx.Done():
@@ -154,37 +158,63 @@ func (s *ParseService) initPlaces(ctx context.Context) error {
 	return nil
 }
 
+// retryDelays defines wait times between retries on HTTP 429.
+var retryDelays = []time.Duration{30 * time.Second, 60 * time.Second, 120 * time.Second}
+
 // getPlacesFromOSM queries the Overpass API and saves the results to MongoDB.
+// Retries automatically on HTTP 429 (rate limit) with increasing delays.
 func (s *ParseService) getPlacesFromOSM(ctx context.Context, def osmPlaceDef) error {
 	query := buildOverpassQuery(def.Filters, moscowBBox)
 
-	formData := url.Values{}
-	formData.Set("data", query)
+	var (
+		body []byte
+		resp *http.Response
+	)
+	for attempt := 0; ; attempt++ {
+		formData := url.Values{}
+		formData.Set("data", query)
 
-	req, err := http.NewRequestWithContext(ctx, "POST", overpassURL,
-		strings.NewReader(formData.Encode()))
-	if err != nil {
-		return fmt.Errorf("create overpass request: %w", err)
-	}
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-
-	resp, err := s.httpClient.Do(req)
-	if err != nil {
-		return fmt.Errorf("overpass request: %w", err)
-	}
-	defer resp.Body.Close()
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return fmt.Errorf("read overpass body: %w", err)
-	}
-
-	if resp.StatusCode != http.StatusOK {
-		preview := string(body)
-		if len(preview) > 200 {
-			preview = preview[:200]
+		req, err := http.NewRequestWithContext(ctx, "POST", overpassURL,
+			strings.NewReader(formData.Encode()))
+		if err != nil {
+			return fmt.Errorf("create overpass request: %w", err)
 		}
-		return fmt.Errorf("overpass HTTP %d: %s", resp.StatusCode, preview)
+		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+		resp, err = s.httpClient.Do(req)
+		if err != nil {
+			return fmt.Errorf("overpass request: %w", err)
+		}
+
+		body, err = io.ReadAll(resp.Body)
+		resp.Body.Close()
+		if err != nil {
+			return fmt.Errorf("read overpass body: %w", err)
+		}
+
+		if resp.StatusCode == http.StatusTooManyRequests {
+			if attempt >= len(retryDelays) {
+				return fmt.Errorf("overpass rate limited after %d retries", attempt)
+			}
+			wait := retryDelays[attempt]
+			log.Printf("[parseService] overpass 429 for %q, retry in %v (attempt %d/%d)",
+				def.Name, wait, attempt+1, len(retryDelays))
+			select {
+			case <-ctx.Done():
+				return ctx.Err()
+			case <-time.After(wait):
+			}
+			continue
+		}
+
+		if resp.StatusCode != http.StatusOK {
+			preview := string(body)
+			if len(preview) > 200 {
+				preview = preview[:200]
+			}
+			return fmt.Errorf("overpass HTTP %d: %s", resp.StatusCode, preview)
+		}
+		break
 	}
 
 	var osmResp osmResponse

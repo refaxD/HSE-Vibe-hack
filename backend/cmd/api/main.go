@@ -91,12 +91,6 @@ func main() {
 	eventH := handler.NewEventPlaceHandler(eventPlaceUC)
 	pathH := handler.NewPathHandler(pathUC)
 
-	// Parse entities if configured
-	if cfg.ParseEntities {
-		parseService := usecase.NewParseService(categoryRepo, placeRepo, eventPlaceRepo, cfg)
-		go parseService.Run(context.Background())
-	}
-
 	// Fiber app
 	app := fiber.New(fiber.Config{
 		ReadTimeout:  10 * time.Second,
